@@ -21,7 +21,6 @@ while(<>) {
   }
   foreach(split(/ /)) {
     my @f = split(/:/);
-    next if $f[0] eq 'cid';
     $p{$f[0]} = $f[1] if $m eq 1 or $f[1] =~ $v{$f[0]};
   }
 }
