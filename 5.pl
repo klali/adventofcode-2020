@@ -3,8 +3,7 @@
 my $m = shift || 1;
 
 while(<>) {
-  tr/FBLR/0101/;
-  $d = oct("0b" . $_);
+  $d = oct("0b" . tr/FBLR/0101/r);
   $j = $d if $d > $j;
   $p{$d} = 1;
 }
