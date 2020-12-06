@@ -5,14 +5,12 @@ my $m = shift || 1;
 while(<>) {
   chomp;
   if($_ eq "") {
-    $n = $p{num};
-    delete $p{num};
-    $j += grep { (values(%p))[$_] eq $n } 0..(keys(%p)) if $m eq 2;
-    $j += keys(%p) if $m eq 1;
-    %p = ();
+    @f = map { @$_ } @p;
+    $j += grep { @{[join('', @f) =~ /$_/g]} eq @p } keys %{{map { $_ => 1 } @f}} if $m eq 2;
+    $j += keys(%{{map { $_ => 1 } @f}}) if $m eq 1;
+    @p = ();
   } else {
-    %p = (%p, map { $_ => $p{$_} + 1 } split//);
-    $p{num}++;
+    splice @p, 1, 0, \@{[(split//)]};
   }
 }
 
