@@ -12,19 +12,16 @@ while(<>) {
 }
 
 sub t1 {
-  my @r = map { t1(@{$p{$_}}) } @_;
-  return (@r, @_);
+  (@{[map { t1(@{$p{$_}}) } @_]}, @_);
 }
 
 sub t2 {
-  my $r;
-  foreach (@_) {
-    $r += $_->[0] + t2(@{$q{$_->[1]}}) * $_->[0];
-  }
-  return $r;
+  my $r = 1;
+  map { $r += t2(@{$q{$_->[1]}}) * $_->[0] } @_;
+  $r;
 }
 
 $j = keys %{{map { $_ => 1 } t1(@{$p{'shiny gold'}})}} if $m eq 1;
-$j = t2(@{$q{'shiny gold'}}) if $m eq 2;
+$j = t2(@{$q{'shiny gold'}}) - 1 if $m eq 2;
 
 warn $j;
