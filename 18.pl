@@ -4,11 +4,10 @@ $m = shift || 1;
 
 sub c2 {
   my $t = shift;
-  my $ops = shift;
   while() {
-    $t =~ m/(\d+ $ops \d+)/ or last;
-    $c = eval "$1";
-    $t =~ s/\Q$1/$c/;
+    $t =~ m/(\d+) ($_[0]) (\d+)/ or last;
+    $c = $2 eq '+' ? $1 + $3 : $1 * $3;
+    $t =~ s/\Q$1 $2 $3/$c/;
   }
   $t;
 }
@@ -20,7 +19,7 @@ sub c {
 
 while(<>) {
   while() {
-    m/\(([^()]+)\)/g or last;
+    m/\(([^()]+)\)/ or last;
     $c = c($1);
     s/\Q($1)/$c/;
   }
